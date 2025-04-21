@@ -1,0 +1,68 @@
+@use "breakpoints" as *;
+
+$left-padding: 10px;
+
+.sidebar {
+  display: none;
+
+  @include respond(lg) {
+    display: block;
+    position: relative;
+  }
+}
+
+.wrapper {
+  position: fixed;
+  overflow-y: scroll;
+  height: calc(100vh - 60px);
+  width: 210px;
+  margin-left: -$left-padding;
+  padding: 20px 0;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .link {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    padding: $left-padding;
+
+    .text {
+      font-size: 18px;
+      z-index: 1;
+    }
+
+    &:hover {
+      &:before {
+        display: block;
+      }
+    }
+
+    &:before {
+      display: none;
+      content: "";
+      position: absolute;
+      background-color: #fff;
+      height: 45px;
+      left: 0;
+      right: 0;
+      border-radius: 10px;
+      animation: fade 0.2s linear;
+    }
+  }
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

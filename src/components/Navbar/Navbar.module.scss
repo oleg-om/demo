@@ -1,0 +1,32 @@
+@use "breakpoints" as *;
+
+.navbar {
+  position: fixed;
+  width: 100%;
+  background-color: var(--navbar-background);
+  height: 60px;
+  padding: 0 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  color: var(--navbar-text);;
+
+  @include respond(md) {
+    max-width: $breakpoint-sm;
+  }
+
+  @include respond(lg) {
+    max-width: $breakpoint-md;
+  }
+
+  @include respond(xl) {
+    max-width: $breakpoint-lg;
+  }
+}

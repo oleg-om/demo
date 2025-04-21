@@ -1,0 +1,47 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  position: relative;
+
+  &:after {
+    content: "";
+    position: absolute;
+    right: -20px;
+    left: -20px;
+    bottom: 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .author {
+    display: flex;
+    gap: 10px;
+
+    .image {
+      border-radius: 50%;
+      overflow: hidden;
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+    }
+
+    .inner {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+
+      .name {
+        font-weight: 600;
+      }
+
+      .category {
+        display: flex;
+        gap: 5px;
+      }
+    }
+  }
+
+  .date {
+  }
+}
