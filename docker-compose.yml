@@ -10,8 +10,8 @@ services:
     environment:
       - NODE_ENV=production
     volumes:
-      - ./backend/.tmp:/app/.tmp
-
+      - ./backend/.tmp:/opt/.tmp
+      - ./backend/public/uploads:/opt/app/public/uploads
   frontend:
     build:
       context: ./frontend
