@@ -3,7 +3,7 @@ import {
   Pagination,
   SEO,
   StrapiResponse,
-} from "@/interfaces/strapi";
+} from "../interfaces/strapi";
 import { apiFetch } from "@/api/client";
 import { ArticleInterface } from "@/interfaces/article";
 import { AuthorInterface } from "@/interfaces/author";

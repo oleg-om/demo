@@ -33,7 +33,6 @@ const Category = ({
 
 const StaticCategories = ({ activeCategory }: { activeCategory?: string }) => {
   const t = useTranslations();
-
   return (
     <>
       <Category
@@ -41,6 +40,7 @@ const StaticCategories = ({ activeCategory }: { activeCategory?: string }) => {
         name={t("latest")}
         active={activeCategory}
         href={ROUTES.HOME}
+        isActive={!activeCategory}
       />
     </>
   );

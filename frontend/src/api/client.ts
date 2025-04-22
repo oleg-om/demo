@@ -1,4 +1,4 @@
-import { IError } from "@/interfaces/error";
+import { IError } from "../interfaces/error";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 

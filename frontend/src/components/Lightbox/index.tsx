@@ -8,7 +8,7 @@ type Props = {
   closeLightbox: () => void;
   goToNext?: () => void;
   goToPrev?: () => void;
-  navigation: boolean;
+  navigation?: boolean;
 };
 
 const Lightbox = ({
