@@ -1,0 +1,8 @@
+.tmp/
+.idea/
+.vscode/
+.cache/
+.git/
+build/
+node_modules/
+.next/
