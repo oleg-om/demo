@@ -1,6 +1,6 @@
 import { IError } from "../interfaces/error";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337";
 
 export async function apiFetch<T>(
   path: string,

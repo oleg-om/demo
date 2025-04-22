@@ -8,4 +8,4 @@ services:
     ports:
       - "3010:3010"
     environment:
-      - NEXT_PUBLIC_API_URL=http://backend:1337
+      - NEXT_PUBLIC_API_URL=http://localhost:1337
