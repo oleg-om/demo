@@ -17,7 +17,7 @@ $left-padding: 10px;
   height: calc(100vh - 60px);
   width: 210px;
   margin-left: -$left-padding;
-  padding: 20px 0;
+  font-family: var(--font-geist-mono);
 }
 
 .menu {
@@ -56,6 +56,12 @@ $left-padding: 10px;
       animation: fade 0.2s linear;
     }
   }
+
+  .active {
+    &:before {
+      display: block;
+    }
+  }
 }
 
 @keyframes fade {
@@ -66,3 +72,5 @@ $left-padding: 10px;
     opacity: 1;
   }
 }
+
+

@@ -1,5 +1,14 @@
+import { Image, SEO } from "@/interfaces/strapi";
+
 export interface AuthorInterface {
-  name: string;
+  id: number;
+  documentId: string;
   slug: string;
-  image: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  locale: string;
+  image: Image;
+  seo?: SEO;
 }

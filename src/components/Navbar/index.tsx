@@ -1,11 +1,15 @@
 import styles from "./Navbar.module.scss";
 import Image from "next/image";
+import Link from "next/link";
+import { ROUTES } from "@/constants/routes";
 
 const Navbar = () => {
   return (
     <nav className={styles.navbar}>
       <div className={styles.content}>
-        <Image src="/logo.png" alt="logo" width={120} height={38} />
+        <Link href={ROUTES.HOME}>
+          <Image src="/logo.png" alt="logo" width={120} height={38} />
+        </Link>
       </div>
     </nav>
   );

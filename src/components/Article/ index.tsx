@@ -23,7 +23,7 @@ const Article: React.FC<Props> = ({ html }) => {
 
   return (
     <>
-      <div
+      <article
         ref={containerRef}
         className={styles.htmlContainer}
         dangerouslySetInnerHTML={{ __html: html }}

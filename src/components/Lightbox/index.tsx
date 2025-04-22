@@ -6,8 +6,9 @@ type Props = {
   isOpen: boolean;
   imageSrc: string | null;
   closeLightbox: () => void;
-  goToNext: () => void;
-  goToPrev: () => void;
+  goToNext?: () => void;
+  goToPrev?: () => void;
+  navigation: boolean;
 };
 
 const Lightbox = ({
@@ -16,6 +17,7 @@ const Lightbox = ({
   closeLightbox,
   goToNext,
   goToPrev,
+  navigation = true,
 }: Props) => {
   return (
     <Modal
@@ -28,18 +30,22 @@ const Lightbox = ({
       <button onClick={closeLightbox} className={styles.closeButton}>
         &times;
       </button>
-      <button className={styles.prevButton} onClick={goToPrev}>
-        &#8592;
-      </button>
+      {navigation && (
+        <button className={styles.prevButton} onClick={goToPrev}>
+          &#8592;
+        </button>
+      )}
       <img
         src={imageSrc ?? ""}
         alt="Lightbox"
         className={styles.lightboxImage}
         onClick={closeLightbox}
       />
-      <button className={styles.nextButton} onClick={goToNext}>
-        &#8594;
-      </button>
+      {navigation && (
+        <button className={styles.nextButton} onClick={goToNext}>
+          &#8594;
+        </button>
+      )}
     </Modal>
   );
 };

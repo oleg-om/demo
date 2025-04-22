@@ -5,6 +5,7 @@ import { AuthorInterface } from "@/interfaces/author";
 import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
 import Image from "next/image";
+import { getImage } from "@/strapi";
 
 type Props = {
   author: AuthorInterface;
@@ -13,13 +14,17 @@ type Props = {
 };
 
 const Author: React.FC<Props> = ({ author, category, date }) => {
+  if (!author || !category) {
+    return null;
+  }
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.author}>
         <Link href={ROUTES.AUTHOR(author.slug)} className={styles.image}>
           <Image
             className={styles.image}
-            src={author.image}
+            src={getImage(author.image)}
             alt={author.name}
             width={50}
             height={50}

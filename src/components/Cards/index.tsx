@@ -1,20 +1,18 @@
+"use server";
 import styles from "./Cards.module.scss";
 import Card from "@/components/Card";
+import { ArticleInterface } from "@/interfaces/article";
 
-const Cards = () => {
+export type CardsProps = {
+  data: ArticleInterface[];
+};
+
+const Cards = async ({ data }: CardsProps) => {
   return (
     <main className={styles.cards}>
-      <Card />
-      <Card /> <Card />
-      <Card /> <Card />
-      <Card /> <Card />
-      <Card /> <Card />
-      <Card /> <Card />
-      <Card /> <Card />
-      <Card /> <Card />
-      <Card /> <Card />
-      <Card /> <Card />
-      <Card />
+      {data.map((a) => (
+        <Card article={a} key={a.slug} />
+      ))}
     </main>
   );
 };

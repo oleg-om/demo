@@ -1,0 +1,24 @@
+@use "breakpoints" as *;
+
+.layout {
+  margin: 60px auto 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  padding: 20px 16px;
+
+  @include respond(md) {
+    padding: 20px 0;
+    max-width: $breakpoint-sm;
+  }
+
+  @include respond(lg) {
+    max-width: $breakpoint-md;
+    grid-template-columns: 200px 1fr;
+  }
+
+  @include respond(xl) {
+    max-width: $breakpoint-lg;
+    grid-template-columns: 200px 1fr 150px;
+  }
+}

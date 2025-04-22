@@ -1,0 +1,28 @@
+.container {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  display: grid;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #222;
+}
+
+.button {
+  background-color: #0070f3;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.button:hover {
+  background-color: #0059c1;
+}

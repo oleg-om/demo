@@ -1,6 +1,50 @@
 .card {
   background-color: #fff;
   padding: 16px 20px;
-  border-radius: 15px;
+  border-radius: var(--default-border-radius);
   overflow: hidden;
+}
+
+.inner {
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.innerLink {
+  user-select: none;
+  cursor: pointer;
+
+  &:hover {
+    .image {
+      filter: brightness(0.8);
+    }
+  }
+}
+
+.title {
+}
+
+.description {
+  display: block;
+  padding-top: 8px;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  transition: all 0.2s ease-in-out;
+  border-radius: var(--default-border-radius);
+}
+
+.lightbox {
+  cursor: zoom-in;
+}
+
+.link {
+  color: var(--secondary-text-color);
+  text-decoration: underline;
+  font-family: var(--font-geist-mono);
 }
