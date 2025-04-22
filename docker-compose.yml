@@ -9,10 +9,10 @@ services:
       - "1337:1337"
     environment:
       - NODE_ENV=production
-      - DATABASE_FILENAME=/opt/app/.tmp/data.db
+      - DATABASE_FILENAME=/opt/.tmp/data.db
     volumes:
-      - ./backend/.tmp:/opt/app/.tmp
-      - ./backend/public/uploads:/opt/app/public/uploads
+      - ./backend/.tmp:/opt/.tmp
+      - ./backend/public/uploads:/opt/public/uploads
   frontend:
     build:
       context: ./frontend
