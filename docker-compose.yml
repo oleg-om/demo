@@ -9,6 +9,8 @@ services:
       - "1337:1337"
     environment:
       - NODE_ENV=production
+    volumes:
+      - ./backend/.tmp:/app/.tmp
 
   frontend:
     build:
