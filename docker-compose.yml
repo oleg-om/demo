@@ -2,7 +2,9 @@ version: '3'
 
 services:
   frontend:
-    build: ./frontend
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
     ports:
       - "3005:3005"
     depends_on:
@@ -11,12 +13,13 @@ services:
       - NEXT_PUBLIC_API_URL=http://localhost:1337
 
   backend:
-    build: ./backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/app/backend  # Монтируем папку backend в контейнер
     ports:
       - "1337:1337"
     environment:
       - DATABASE_CLIENT=sqlite
       - NODE_ENV=production
-    volumes:
-      - ./backend/public:/app/public
-      - ./backend/.tmp:/app/.tmp
