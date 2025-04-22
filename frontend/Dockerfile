@@ -12,10 +12,6 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# перед сборкой пробрасываем адрес Strapi (имя сервиса из docker‑compose)
-ARG API_URL
-ENV NEXT_PUBLIC_API_URL=${API_URL}
-
 RUN yarn build
 
 # Stage 3: Run the app
@@ -23,9 +19,6 @@ FROM node:18-alpine AS runner
 
 WORKDIR /app
 ENV NODE_ENV=production
-# оставляем ту же переменную на runtime, чтоб при старте тоже видел API
-ARG API_URL
-ENV NEXT_PUBLIC_API_URL=${API_URL}
 
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
