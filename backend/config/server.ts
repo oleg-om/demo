@@ -6,7 +6,7 @@ export default ({ env }) => ({
   },
   url: env("PUBLIC_URL"),
   admin: {
-    url: "/api/admin",
+    url: "/strapi/admin",
     serveAdminPanel: true,
   },
 });

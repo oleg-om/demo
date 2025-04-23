@@ -24,7 +24,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        NEXT_PUBLIC_API_URL: https://mintence.com/api
+        NEXT_PUBLIC_API_URL: https://mintence.com/strapi
     container_name: frontend
     ports:
       - "3010:3010"
