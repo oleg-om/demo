@@ -4,8 +4,8 @@ FROM node:18-alpine
 # Создаем рабочую директорию
 WORKDIR /app
 
-# Копируем package.json и package-lock.json
-COPY package*.json ./
+# Копируем package.json и yarn.lock
+COPY package.json yarn.lock ./
 
 # Устанавливаем зависимости
 RUN yarn install
