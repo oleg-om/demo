@@ -3,7 +3,7 @@ FROM node:18-alpine
 
 # Создаем рабочую директорию
 WORKDIR /app
-
+ENV NODE_ENV=production
 # Копируем package.json и yarn.lock
 COPY package.json yarn.lock ./
 
