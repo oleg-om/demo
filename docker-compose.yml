@@ -23,6 +23,8 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: https://mintence.com/api
     container_name: frontend
     ports:
       - "3010:3010"
@@ -30,8 +32,8 @@ services:
       - backend
     networks:
       - app_network
-    extra_hosts:
-      - "host.docker.internal:172.17.0.1"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:1337
 
 networks:
   app_network:
