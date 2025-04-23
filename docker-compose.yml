@@ -2,17 +2,19 @@ version: '3.8'
 
 services:
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    build: .
+    container_name: strapi
+    restart: unless-stopped
     ports:
       - "1337:1337"
-    environment:
-      - NODE_ENV=production
-      - DATABASE_FILENAME=/opt/app/.tmp/data.db
     volumes:
-      - ./backend/.tmp:/opt/app/.tmp
-      - ./backend/public/uploads:/opt/app/public/uploads
+      # Сохраняем базу данных SQLite
+      - ./sqlite:/app/.tmp
+      - ./database.sqlite:/app/database.sqlite
+      # Сохраняем загруженные файлы
+      - ./public/uploads:/app/public/uploads
+    environment:
+      NODE_ENV: production
   frontend:
     build:
       context: ./frontend
