@@ -2,6 +2,7 @@
 FROM node:18-alpine AS deps
 
 WORKDIR /app
+ENV NODE_ENV=production
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
