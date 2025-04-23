@@ -24,6 +24,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
+        - NEXT_PUBLIC_API_URL=https://mintence.com/strapi
         - NODE_ENV=production
     container_name: frontend
     ports:
@@ -33,6 +34,7 @@ services:
     networks:
       - app_network
     environment:
+      - NEXT_PUBLIC_API_URL=http://backend:1337
       - NODE_ENV=production
 
 networks:
