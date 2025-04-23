@@ -8,13 +8,13 @@ WORKDIR /app
 COPY package*.json ./
 
 # Устанавливаем зависимости
-RUN npm install
+RUN yarn install
 
 # Копируем остальные файлы проекта
 COPY . .
 
 # Собираем Strapi (если используется сборка)
-RUN npm run build
+RUN yarn build
 
 # Указываем порт (по умолчанию Strapi использует 1337)
 EXPOSE 1337
