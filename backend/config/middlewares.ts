@@ -5,7 +5,7 @@ export default [
   {
     name: "strapi::cors",
     config: {
-      origin: ["http://localhost:3010", "http://frontend:3010"], // Добавьте нужные адреса
+      origin: ["*"], // Добавьте нужные адреса
     },
   },
   "strapi::poweredBy",
