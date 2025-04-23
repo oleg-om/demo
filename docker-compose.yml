@@ -34,8 +34,8 @@ services:
     networks:
       - app_network
     environment:
-      - NEXT_PUBLIC_API_URL=http://backend:1337
-      - NODE_ENV=production
+      NEXT_PUBLIC_API_URL: http://backend:1337
+      NODE_ENV: production
 
 networks:
   app_network:
