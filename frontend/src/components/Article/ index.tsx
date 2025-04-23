@@ -5,6 +5,7 @@ import Modal from "react-modal";
 import styles from "./Article.module.scss";
 import { useImageLightbox } from "@/hooks/useImageLightbox";
 import Lightbox from "@/components/Lightbox";
+import ReactMarkdown from "react-markdown";
 
 type Props = {
   html: string;
@@ -23,11 +24,9 @@ const Article: React.FC<Props> = ({ html }) => {
 
   return (
     <>
-      <article
-        ref={containerRef}
-        className={styles.htmlContainer}
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
+      <article ref={containerRef} className={styles.htmlContainer}>
+        <ReactMarkdown>{html}</ReactMarkdown>
+      </article>
       <Lightbox
         isOpen={isOpen}
         imageSrc={imageSrc}

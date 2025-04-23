@@ -15,7 +15,6 @@ $left-padding: 10px;
   position: fixed;
   overflow-y: scroll;
   height: calc(100vh - 60px);
-  width: 210px;
   margin-left: -$left-padding;
   font-family: var(--font-geist-mono);
 }

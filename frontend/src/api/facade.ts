@@ -28,6 +28,7 @@ export const getArticles = (
   query.set("populate[image][fields][0]", "url");
   query.set("populate[category][fields][0]", "slug");
   query.set("populate[category][fields][1]", "name");
+  query.set("sort[0]", "publishedAt:desc");
 
   if (props?.slug) {
     query.set("filters[slug][$eq]", props.slug);

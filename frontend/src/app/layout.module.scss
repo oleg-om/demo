@@ -14,11 +14,11 @@
 
   @include respond(lg) {
     max-width: $breakpoint-md;
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 220px 1fr;
   }
 
   @include respond(xl) {
     max-width: $breakpoint-lg;
-    grid-template-columns: 200px 1fr 150px;
+    grid-template-columns: 220px 1fr 130px;
   }
 }

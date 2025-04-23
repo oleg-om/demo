@@ -38,6 +38,12 @@
     },
     "description": {
       "type": "text"
+    },
+    "author": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::author.author",
+      "inversedBy": "categories"
     }
   }
 }
