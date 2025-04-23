@@ -5,7 +5,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: strapi
+    container_name: mintence strapi
     restart: unless-stopped
     ports:
       - "1337:1337"
@@ -17,11 +17,22 @@ services:
       - ./public/uploads:/app/public/uploads
     environment:
       NODE_ENV: production
+    networks:
+      - app_network
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    container_name: mintence frontend
     ports:
       - "3010:3010"
     environment:
       - NEXT_PUBLIC_API_URL=http://backend:1337
+    depends_on:
+      - backend
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
