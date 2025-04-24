@@ -28,7 +28,7 @@ export default async function CategoryPage({ params }: Props) {
     const articles = await getArticles({ category });
     data = articles.data;
 
-    if (!data || data.length === 0) {
+    if (!data) {
       notFound();
     }
   } catch {

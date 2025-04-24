@@ -29,7 +29,7 @@ export default async function AuthorPage({ params }: Props) {
     const articles = await getArticles({ author });
     data = articles.data;
 
-    if (!data || data.length === 0) {
+    if (!data) {
       notFound();
     }
   } catch {

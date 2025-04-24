@@ -12,7 +12,7 @@ export default async function HomePage() {
     const articles = await getArticles();
     data = articles.data;
 
-    if (!data || data.length === 0) {
+    if (!data) {
       notFound();
     }
   } catch {
