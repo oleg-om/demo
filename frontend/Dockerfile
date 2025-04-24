@@ -2,7 +2,7 @@
 FROM node:18-alpine AS deps
 
 WORKDIR /app
-ENV NODE_ENV=production
+
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
@@ -13,7 +13,7 @@ ARG NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 
 WORKDIR /app
-ENV NODE_ENV=production
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 

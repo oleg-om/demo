@@ -8,7 +8,7 @@ export async function apiFetch<T>(
   query?: URLSearchParams,
 ): Promise<T> {
   const url = new URL(`${BASE_URL}${path}`);
-
+  console.log("URL", `${BASE_URL}${path}`);
   if (query) {
     url.search = query.toString();
   }
