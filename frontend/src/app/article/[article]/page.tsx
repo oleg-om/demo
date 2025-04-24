@@ -60,7 +60,7 @@ export default async function ArticlePage({ params }: Props) {
 
 export async function generateStaticParams() {
   const articles = await getAllArticles();
-
+  console.log("URL", process.env.NEXT_PUBLIC_API_URL);
   return articles.map(({ slug }) => ({
     slug,
   }));
