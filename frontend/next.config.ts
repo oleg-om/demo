@@ -17,7 +17,8 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "mintence.com",
-        pathname: "/strapi/uploads/**",
+        port: "",
+        pathname: "**",
       },
     ],
   },

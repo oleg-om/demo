@@ -9,7 +9,6 @@ const Navbar = () => {
       <div className={styles.content}>
         <Link href={ROUTES.HOME}>
           <Image src="/logo.png" alt="logo" width={120} height={22} />
-          11
         </Link>
       </div>
     </nav>
