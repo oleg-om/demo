@@ -2,7 +2,10 @@ import fetch from "node-fetch";
 import FormData from "form-data";
 import { StrapiImage } from "@/app/api/articles/route";
 
-export async function postImage(imageUrl: string): Promise<StrapiImage> {
+export async function postImage(
+  imageUrl: string,
+  prefix: string = "article",
+): Promise<StrapiImage> {
   // 1. Скачиваем изображение
   const imageRes = await fetch(imageUrl);
   if (!imageRes.ok) throw new Error("Failed to download image");
@@ -12,7 +15,7 @@ export async function postImage(imageUrl: string): Promise<StrapiImage> {
   // 2. Загружаем в Strapi через FormData
   const form = new FormData();
   form.append("files", Buffer.from(imageBuffer), {
-    filename: `article-${Date.now()}.jpg`,
+    filename: `${prefix}-${Date.now()}.jpg`,
     contentType: imageRes.headers.get("content-type") || "image/jpeg",
   });
 

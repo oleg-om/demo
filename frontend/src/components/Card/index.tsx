@@ -42,6 +42,7 @@ const CardInner = ({ article, showFull }: CardProps) => {
               [styles.lightbox]: showFull,
             })}
             src={imageSrc}
+            style={showFull ? {} : { maxHeight: 300, objectFit: "cover" }}
             alt={article.title}
             width={200}
             height={100}

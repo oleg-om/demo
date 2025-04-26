@@ -23,24 +23,21 @@ export interface StrapiArticle {
 
 // Типы для запросов
 export type ArticleRequest = {
-  data: Article[];
+  data: Author[];
 };
 
-type Article = {
-  title: string;
-  text: string;
+type Author = {
   slug: string;
+  name: string;
   imageUrl: string;
-  description: string;
-  author: number;
-  category: number;
+  categories: number[];
   seo?: SEO;
 };
 
 export type ArticleResponse = {
   success: boolean;
   article?: StrapiArticle;
-  image?: StrapiImage;
+  image?: StrapiImage | null;
   error?: string;
 };
 
@@ -49,56 +46,27 @@ export async function POST(request: Request) {
 
   await Promise.all(
     data.map(async (d) => {
-      const {
-        text,
-        slug,
-        imageUrl,
-        description,
-        author,
-        category,
-        title,
-        seo,
-      } = d;
+      const { slug, imageUrl, name, categories, seo } = d;
       // Валидация
-      if (!text || !slug || !imageUrl) {
+      if (!name || !slug || !imageUrl) {
         return NextResponse.json(
           { error: "Missing required fields" },
           { status: 400 },
         );
       }
 
+      let imageData: StrapiImage | null = null;
+
       try {
-        const imageData = await postImage(imageUrl);
+        imageData = await postImage(imageUrl, "author");
+      } catch {
+        imageData = null;
+      }
 
-        // Поиск всех ссылок на картинки
-        function extractImageUrls(text: string): string[] {
-          const regex =
-            /https?:\/\/[^\s"'()]+?\.(?:png|jpg|jpeg|gif|webp|svg)/gi;
-          return Array.from(new Set(text.match(regex) || []));
-        }
-        let textWithImages: string = text;
-
-        if (text) {
-          const urls = extractImageUrls(text);
-
-          for (const imageUrl of urls) {
-            try {
-              const uploadedUrl = await postImage(imageUrl);
-              if (uploadedUrl?.attributes?.url) {
-                textWithImages = text.replaceAll(
-                  imageUrl,
-                  uploadedUrl.attributes.url,
-                );
-              }
-            } catch (err) {
-              console.warn("Не удалось загрузить изображение:", imageUrl, err);
-            }
-          }
-        }
-
+      try {
         // 3. Создаем статью
         const articleRes = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/articles`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/authors`,
           {
             method: "POST",
             headers: {
@@ -109,13 +77,10 @@ export async function POST(request: Request) {
             },
             body: JSON.stringify({
               data: {
-                text: textWithImages || text,
                 slug,
-                image: imageData.id,
-                description,
-                author,
-                category,
-                title,
+                ...(imageData && { image: imageData.id }),
+                name,
+                categories,
                 seo,
               },
             }),
@@ -126,7 +91,7 @@ export async function POST(request: Request) {
           const errorData = await articleRes.json();
 
           throw new Error(
-            JSON.stringify(errorData) || "Failed to create article",
+            JSON.stringify(errorData) || "Failed to create authors",
           );
         }
 
