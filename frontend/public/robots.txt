@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Disallow: /strapi/
+
+Allow: /article/
+
+Sitemap: https://mintence.com/sitemap.xml
