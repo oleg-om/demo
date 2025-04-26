@@ -20,6 +20,7 @@ jobs:
       - name: Pull changes and restart containers
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            set -e
             cd /var/www/mintence
             git pull origin main
             docker compose down
