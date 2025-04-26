@@ -9,7 +9,7 @@ const Navbar = () => {
       <div className={styles.content}>
         <Link href={ROUTES.HOME}>
           <Image src="/logo.png" alt="logo" width={120} height={22} />
-          44
+          55
         </Link>
       </div>
     </nav>
