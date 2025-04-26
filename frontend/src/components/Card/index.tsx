@@ -7,7 +7,6 @@ import { formatDate } from "@/lib/dates";
 import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
 import { getImage } from "@/strapi";
 import Article from "@/components/Article/ index";
 import Lightbox from "@/components/Lightbox";
@@ -37,7 +36,7 @@ const CardInner = ({ article, showFull }: CardProps) => {
       <span className={styles.description}>{article.description}</span>
       {article?.image && (
         <>
-          <Image
+          <img
             className={clsx(styles.image, {
               [styles.lightbox]: showFull,
             })}

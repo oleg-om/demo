@@ -7,7 +7,20 @@ const nextConfig: NextConfig = {
     includePaths: [path.join(__dirname, "src", "styles")],
   },
   images: {
-    domains: ["mintence.com"],
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "1337",
+        pathname: "/uploads/**",
+      },
+      {
+        protocol: "https",
+        hostname: "mintence.com",
+        port: "",
+        pathname: "**",
+      },
+    ],
   },
 };
 

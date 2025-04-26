@@ -4,7 +4,6 @@ import { CategoryInterface } from "@/interfaces/category";
 import { AuthorInterface } from "@/interfaces/author";
 import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
-import Image from "next/image";
 import { getImage } from "@/strapi";
 
 type Props = {
@@ -22,7 +21,7 @@ const Author: React.FC<Props> = ({ author, category, date }) => {
     <div className={styles.wrapper}>
       <div className={styles.author}>
         <Link href={ROUTES.AUTHOR(author.slug)} className={styles.image}>
-          <Image
+          <img
             className={styles.image}
             src={getImage(author.image)}
             alt={author.name}

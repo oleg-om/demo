@@ -33,6 +33,7 @@ const Article: React.FC<Props> = ({ html }) => {
         closeLightbox={closeLightbox}
         goToNext={goToNext}
         goToPrev={goToPrev}
+        navigation={false}
       />
     </>
   );
