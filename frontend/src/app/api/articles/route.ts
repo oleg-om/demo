@@ -23,7 +23,7 @@ export interface StrapiArticle {
 
 // Типы для запросов
 export type ArticleRequest = {
-  data: Article[];
+  data: Article;
 };
 
 type Article = {
@@ -47,106 +47,92 @@ export type ArticleResponse = {
 export async function POST(request: Request) {
   const { data } = (await request.json()) as ArticleRequest;
 
-  await Promise.all(
-    data.map(async (d) => {
-      const {
-        text,
-        slug,
-        imageUrl,
-        description,
-        author,
-        category,
-        title,
-        seo,
-      } = d;
-      // Валидация
-      if (!text || !slug || !imageUrl) {
-        return NextResponse.json(
-          { error: "Missing required fields" },
-          { status: 400 },
-        );
-      }
+  const { text, slug, imageUrl, description, author, category, title, seo } =
+    data;
+  // Валидация
+  if (!text || !slug || !imageUrl) {
+    return NextResponse.json(
+      { error: "Missing required fields" },
+      { status: 400 },
+    );
+  }
 
-      try {
-        const imageData = await postImage(imageUrl);
+  try {
+    const imageData = await postImage(imageUrl);
 
-        // Поиск всех ссылок на картинки
-        function extractImageUrls(text: string): string[] {
-          const regex =
-            /https?:\/\/[^\s"'()]+?\.(?:png|jpg|jpeg|gif|webp|svg)/gi;
-          return Array.from(new Set(text.match(regex) || []));
-        }
-        let textWithImages: string = text;
+    // Поиск всех ссылок на картинки
+    function extractImageUrls(text: string): string[] {
+      const regex = /https?:\/\/[^\s"'()]+?\.(?:png|jpg|jpeg|gif|webp|svg)/gi;
+      return Array.from(new Set(text.match(regex) || []));
+    }
 
-        if (text) {
-          const urls = extractImageUrls(text);
+    let textWithImages: string = text;
 
-          for (const imageUrl of urls) {
-            try {
-              const uploadedUrl = await postImage(imageUrl);
-              if (uploadedUrl?.attributes?.url) {
-                textWithImages = text.replaceAll(
-                  imageUrl,
-                  uploadedUrl.attributes.url,
-                );
-              }
-            } catch (err) {
-              console.warn("Не удалось загрузить изображение:", imageUrl, err);
-            }
+    if (text) {
+      const urls = extractImageUrls(text);
+
+      for (const imageUrl of urls) {
+        try {
+          const uploadedUrl = await postImage(imageUrl);
+          if (uploadedUrl?.attributes?.url) {
+            textWithImages = text.replaceAll(
+              imageUrl,
+              uploadedUrl.attributes.url,
+            );
           }
+        } catch (err) {
+          console.warn("Не удалось загрузить изображение:", imageUrl, err);
         }
-
-        // 3. Создаем статью
-        const articleRes = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/articles`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              ...(process.env.STRAPI_API_TOKEN && {
-                Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-              }),
-            },
-            body: JSON.stringify({
-              data: {
-                text: textWithImages || text,
-                slug,
-                image: imageData.id,
-                description,
-                author,
-                category,
-                title,
-                seo,
-              },
-            }),
-          },
-        );
-
-        if (!articleRes.ok) {
-          const errorData = await articleRes.json();
-
-          throw new Error(
-            JSON.stringify(errorData) || "Failed to create article",
-          );
-        }
-
-        const article = (await articleRes.json()) as { data: StrapiArticle };
-
-        return NextResponse.json({
-          success: true,
-          article: article.data,
-          image: imageData,
-        } satisfies ArticleResponse);
-      } catch (error) {
-        console.error("API Error:", error);
-        return NextResponse.json(
-          {
-            success: false,
-            error: error instanceof Error ? error.message : "Unknown error",
-          },
-          { status: 500 },
-        );
       }
-    }),
-  );
+    }
+
+    // 3. Создаем статью
+    const articleRes = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/articles`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(process.env.STRAPI_API_TOKEN && {
+            Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+          }),
+        },
+        body: JSON.stringify({
+          data: {
+            text: textWithImages || text,
+            slug,
+            image: imageData.id,
+            description,
+            author,
+            category,
+            title,
+            seo,
+          },
+        }),
+      },
+    );
+
+    if (!articleRes.ok) {
+      const errorData = await articleRes.json();
+
+      throw new Error(JSON.stringify(errorData) || "Failed to create article");
+    }
+
+    const article = (await articleRes.json()) as { data: StrapiArticle };
+
+    return NextResponse.json({
+      success: true,
+      article: article.data,
+      image: imageData,
+    } satisfies ArticleResponse);
+  } catch (error) {
+    console.error("API Error:", error);
+    return NextResponse.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 },
+    );
+  }
 }
