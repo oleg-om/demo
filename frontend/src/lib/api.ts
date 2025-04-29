@@ -20,7 +20,7 @@ export async function postImage(
   });
 
   const uploadRes = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/upload`,
+    `${process.env.NEXT_PUBLIC_API_EXTERNAL_URL}/api/upload`,
     {
       method: "POST",
       headers: {
