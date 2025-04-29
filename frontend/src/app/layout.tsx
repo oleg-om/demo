@@ -31,21 +31,12 @@ async function RootLayout({
   const { NEXT_PUBLIC_GTM_ID } = process.env;
   return (
     <html lang={locale}>
-      {NEXT_PUBLIC_GTM_ID && <GoogleTagManager gtmId={NEXT_PUBLIC_GTM_ID} />}
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <noscript>
-          <iframe
-            src={`https://www.googletagmanager.com/ns.html?id=${NEXT_PUBLIC_GTM_ID}`}
-            height="0"
-            width="0"
-            style={{ display: "none", visibility: "hidden" }}
-          ></iframe>
-        </noscript>
-
         <Navbar />
         <NextIntlClientProvider>
           <div className={styles.layout}>{children}</div>
         </NextIntlClientProvider>
+        {NEXT_PUBLIC_GTM_ID && <GoogleTagManager gtmId={NEXT_PUBLIC_GTM_ID} />}
       </body>
     </html>
   );
