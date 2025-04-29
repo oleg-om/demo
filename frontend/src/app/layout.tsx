@@ -5,6 +5,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
 import Navbar from "@/components/Navbar";
 import styles from "./layout.module.scss";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,10 +28,20 @@ async function RootLayout({
   children: React.ReactNode;
 }>) {
   const locale = await getLocale();
-
+  const { NEXT_PUBLIC_GTM_ID } = process.env;
   return (
     <html lang={locale}>
+      {NEXT_PUBLIC_GTM_ID && <GoogleTagManager gtmId={NEXT_PUBLIC_GTM_ID} />}
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${NEXT_PUBLIC_GTM_ID}`}
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          ></iframe>
+        </noscript>
+
         <Navbar />
         <NextIntlClientProvider>
           <div className={styles.layout}>{children}</div>
