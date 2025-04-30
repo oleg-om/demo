@@ -1,0 +1,61 @@
+/* Обертка для выпадающего списка */
+.shareSelect {
+  position: relative;
+  width: 200px;
+  margin-left: auto;
+}
+
+/* Кнопка, которая открывает список */
+.selectButton {
+  width: 100%;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  color: var(--secondary-text-color);
+  font-family: var(--font-geist-mono);
+  align-items: center;
+  gap: 8px;
+}
+
+/* Стиль выпадающего списка */
+.dropdown {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--background);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+  padding: 8px 0;
+}
+
+/* Стиль каждого пункта в выпадающем списке */
+.option {
+  padding: 12px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+/* Стиль для иконки соцсети */
+.icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+/* Эффект при наведении на пункт */
+.option:hover {
+  background-color: #e2e2e2;
+}

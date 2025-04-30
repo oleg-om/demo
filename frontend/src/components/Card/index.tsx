@@ -13,6 +13,7 @@ import Lightbox from "@/components/Lightbox";
 import React, { useState } from "react";
 import clsx from "clsx";
 import { ImageSize } from "@/enums/imageSize";
+import ShareButtons from "@/components/ShareButtons";
 
 type CardProps = {
   article: ArticleInterface;
@@ -60,7 +61,13 @@ const CardInner = ({ article, showFull }: CardProps) => {
         </>
       )}
       {showFull ? (
-        <Article html={article.text} />
+        <>
+          <Article html={article.text} />
+          <ShareButtons
+            url={`${process.env.NEXT_PUBLIC_DOMAIN}${ROUTES.ARTICLE(article.slug)}`}
+            title={article.title}
+          />
+        </>
       ) : (
         <span className={styles.link}>{t("show-more")} 👈</span>
       )}
