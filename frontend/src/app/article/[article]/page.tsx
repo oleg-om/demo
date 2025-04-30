@@ -8,7 +8,6 @@ import Card from "@/components/Card";
 import styles from "./page.module.scss";
 import { SubTitle } from "@/components/Subtitle";
 import { getArticleSEO } from "@/lib/seo";
-import { ArticleJsonLd } from "next-seo";
 import { ROUTES } from "@/constants/routes";
 import { getImage } from "@/strapi";
 import { ImageSize } from "@/enums/imageSize";
@@ -64,6 +63,10 @@ export default async function ArticlePage({ params }: Props) {
     publisher: {
       "@type": "Organization",
       name: `${process.env.NEXT_PUBLIC_SITE_NAME}`,
+      logo: {
+        "@type": "ImageObject",
+        url: `${process.env.NEXT_PUBLIC_DOMAIN}/.logo-lg.png`,
+      },
     },
     description: data.description,
   };
