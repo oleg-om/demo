@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Mintence.com",
+  title: process.env.NEXT_PUBLIC_SITE_NAME,
   icons: ["/favicon/favicon.ico"],
 };
 
