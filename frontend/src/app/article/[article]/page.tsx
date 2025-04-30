@@ -11,7 +11,6 @@ import { getArticleSEO } from "@/lib/seo";
 import { ROUTES } from "@/constants/routes";
 import { getImage } from "@/strapi";
 import { ImageSize } from "@/enums/imageSize";
-import Head from "next/head";
 
 type Props = {
   params: Promise<{ article: string }>;
@@ -73,12 +72,10 @@ export default async function ArticlePage({ params }: Props) {
 
   return (
     <>
-      <Head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-      </Head>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Sidebar />
       <div className={styles.content}>
         <Card article={data} showFull={true} />
