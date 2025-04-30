@@ -8,6 +8,10 @@ import Card from "@/components/Card";
 import styles from "./page.module.scss";
 import { SubTitle } from "@/components/Subtitle";
 import { getArticleSEO } from "@/lib/seo";
+import { ArticleJsonLd } from "next-seo";
+import { ROUTES } from "@/constants/routes";
+import { getImage } from "@/strapi";
+import { ImageSize } from "@/enums/imageSize";
 
 type Props = {
   params: Promise<{ article: string }>;
@@ -53,6 +57,16 @@ export default async function ArticlePage({ params }: Props) {
             <Cards data={related} />
           </>
         )}
+
+        <ArticleJsonLd
+          type="NewsArticle"
+          url={`${process.env.NEXT_PUBLIC_DOMAIN}${ROUTES.ARTICLE(data.slug)}`}
+          title={data.title}
+          images={[getImage(data.image, ImageSize.medium)]}
+          datePublished={data.publishedAt}
+          authorName={data.author.name}
+          description={data.description}
+        />
       </div>
     </>
   );

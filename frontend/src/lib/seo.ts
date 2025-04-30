@@ -2,6 +2,7 @@ import { AuthorInterface } from "@/interfaces/author";
 import { Metadata } from "next";
 import { ArticleInterface } from "@/interfaces/article";
 import { CategoryInterface } from "@/interfaces/category";
+import { ROUTES } from "@/constants/routes";
 
 const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME;
 
@@ -21,18 +22,29 @@ export const getAuthorSEO = (author: AuthorInterface): Metadata => {
 };
 
 export const getArticleSEO = (article: ArticleInterface): Metadata => {
+  const title =
+    article?.seo?.metaTitle ||
+    `${article.title} | ${article.category.name} | ${SITE_NAME}`;
+  const description =
+    article?.seo?.metaDescription ||
+    `Explore ${article.category.name}. Written by ${article.author.name}, this ${article.category.name} article covers insights, trends, and expert analysis`;
+  const url = `${process.env.NEXT_PUBLIC_DOMAIN}${ROUTES.ARTICLE(article.slug)}`;
+
   return {
-    title:
-      article?.seo?.metaTitle ||
-      `${article.title} | ${article.category.name} | ${SITE_NAME}`,
-    description:
-      article?.seo?.metaDescription ||
-      `Explore ${article.category.name}. Written by ${article.author.name}, this ${article.category.name} article covers insights, trends, and expert analysis`,
-    ...(article.image?.url && {
-      openGraph: {
-        images: [article.image.url],
-      },
-    }),
+    title,
+    description,
+    openGraph: {
+      type: "article",
+      url,
+      authors: [article.author.name],
+      ...(article.image?.url && { images: [article.image.url] }),
+      title,
+      description,
+      locale: "en",
+    },
+    alternates: {
+      canonical: url,
+    },
   };
 };
 

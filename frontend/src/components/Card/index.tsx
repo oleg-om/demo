@@ -12,6 +12,7 @@ import Article from "@/components/Article/ index";
 import Lightbox from "@/components/Lightbox";
 import React, { useState } from "react";
 import clsx from "clsx";
+import { ImageSize } from "@/enums/imageSize";
 
 type CardProps = {
   article: ArticleInterface;
@@ -22,7 +23,8 @@ const CardInner = ({ article, showFull }: CardProps) => {
   const t = useTranslations();
 
   const [isOpen, setIsOpen] = useState(false);
-  const imageSrc = getImage(article.image);
+  const imageLarge = getImage(article.image, ImageSize.large);
+  const imagePreview = getImage(article.image, ImageSize.medium);
   const closeLightbox = () => setIsOpen(false);
   const openLightbox = () => setIsOpen(true);
 
@@ -40,7 +42,7 @@ const CardInner = ({ article, showFull }: CardProps) => {
             className={clsx(styles.image, {
               [styles.lightbox]: showFull,
             })}
-            src={imageSrc}
+            src={imagePreview}
             style={showFull ? {} : { maxHeight: 300, objectFit: "cover" }}
             alt={article.title}
             width={200}
@@ -50,7 +52,7 @@ const CardInner = ({ article, showFull }: CardProps) => {
           {showFull && (
             <Lightbox
               isOpen={isOpen}
-              imageSrc={imageSrc}
+              imageSrc={imageLarge}
               closeLightbox={closeLightbox}
               navigation={false}
             />

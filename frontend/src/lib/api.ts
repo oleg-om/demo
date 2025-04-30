@@ -8,10 +8,11 @@ export async function postImage(
 ): Promise<StrapiImage> {
   // 1. Скачиваем изображение
   const imageRes = await fetch(imageUrl);
+  console.log("imageRes", imageRes);
   if (!imageRes.ok) throw new Error("Failed to download image");
 
   const imageBuffer = await imageRes.arrayBuffer();
-
+  console.log("imageBuffer", imageBuffer);
   // 2. Загружаем в Strapi через FormData
   const form = new FormData();
   form.append("files", Buffer.from(imageBuffer), {

@@ -5,6 +5,7 @@ import { AuthorInterface } from "@/interfaces/author";
 import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
 import { getImage } from "@/strapi";
+import { ImageSize } from "@/enums/imageSize";
 
 type Props = {
   author: AuthorInterface;
@@ -23,7 +24,7 @@ const Author: React.FC<Props> = ({ author, category, date }) => {
         <Link href={ROUTES.AUTHOR(author.slug)} className={styles.image}>
           <img
             className={styles.image}
-            src={getImage(author.image)}
+            src={getImage(author.image, ImageSize.thumbnail)}
             alt={author.name}
             width={50}
             height={50}
