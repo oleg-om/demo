@@ -3,3 +3,8 @@
   flex-direction: column;
   overflow: hidden;
 }
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}

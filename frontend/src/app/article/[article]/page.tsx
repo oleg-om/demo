@@ -11,6 +11,7 @@ import { getArticleSEO } from "@/lib/seo";
 import { ROUTES } from "@/constants/routes";
 import { getImage } from "@/strapi";
 import { ImageSize } from "@/enums/imageSize";
+import ArticleButtons from "@/app/article/[article]/buttons";
 
 type Props = {
   params: Promise<{ article: string }>;
@@ -64,7 +65,7 @@ export default async function ArticlePage({ params }: Props) {
       name: `${process.env.NEXT_PUBLIC_SITE_NAME}`,
       logo: {
         "@type": "ImageObject",
-        url: `${process.env.NEXT_PUBLIC_DOMAIN}/.logo-lg.png`,
+        url: `${process.env.NEXT_PUBLIC_DOMAIN}/logo-lg.png`,
       },
     },
     description: data.description,
@@ -78,6 +79,9 @@ export default async function ArticlePage({ params }: Props) {
       />
       <Sidebar />
       <div className={styles.content}>
+        <ArticleButtons
+          nextArticle={related?.length ? related[0].slug : undefined}
+        />
         <Card article={data} showFull={true} />
         {!!related?.length && (
           <>
