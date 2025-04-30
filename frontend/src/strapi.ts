@@ -3,6 +3,7 @@ import { ImageSize } from "@/enums/imageSize";
 
 export const getImage = (img: Image, imageSize = ImageSize.original) => {
   let image: string;
+
   if (
     imageSize !== ImageSize.original &&
     !!img?.formats &&

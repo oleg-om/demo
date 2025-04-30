@@ -12,6 +12,7 @@ import { ArticleJsonLd } from "next-seo";
 import { ROUTES } from "@/constants/routes";
 import { getImage } from "@/strapi";
 import { ImageSize } from "@/enums/imageSize";
+import Head from "next/head";
 
 type Props = {
   params: Promise<{ article: string }>;
@@ -46,8 +47,35 @@ export default async function ArticlePage({ params }: Props) {
     notFound();
   }
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    headline: data.title,
+    image: [
+      `${process.env.NEXT_PUBLIC_API_EXTERNAL_URL}${getImage(data.image, ImageSize.medium)}`,
+    ],
+    datePublished: data.publishedAt,
+    dateModified: data.updatedAt,
+    author: {
+      "@type": "Person",
+      name: data.author.name,
+      url: `${process.env.NEXT_PUBLIC_DOMAIN}${ROUTES.AUTHOR(data.author.slug)}`,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: `${process.env.NEXT_PUBLIC_SITE_NAME}`,
+    },
+    description: data.description,
+  };
+
   return (
     <>
+      <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </Head>
       <Sidebar />
       <div className={styles.content}>
         <Card article={data} showFull={true} />
@@ -57,16 +85,6 @@ export default async function ArticlePage({ params }: Props) {
             <Cards data={related} />
           </>
         )}
-
-        <ArticleJsonLd
-          type="NewsArticle"
-          url={`${process.env.NEXT_PUBLIC_DOMAIN}${ROUTES.ARTICLE(data.slug)}`}
-          title={data.title}
-          images={[getImage(data.image, ImageSize.medium)]}
-          datePublished={data.publishedAt}
-          authorName={data.author.name}
-          description={data.description}
-        />
       </div>
     </>
   );
