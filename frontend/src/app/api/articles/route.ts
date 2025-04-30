@@ -111,7 +111,7 @@ export async function POST(request: Request) {
         }),
       },
     );
-
+    console.log("TEST", articleRes);
     if (!articleRes.ok) {
       const errorData = await articleRes.json();
 

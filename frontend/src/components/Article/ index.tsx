@@ -23,10 +23,11 @@ const Article: React.FC<Props> = ({ html }) => {
     }
   }, []);
 
+  const parsedText = html.replace(/\\n/g, "\n");
   return (
     <>
       <article ref={containerRef} className={styles.htmlContainer}>
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>{html}</ReactMarkdown>
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>{parsedText}</ReactMarkdown>
       </article>
       <Lightbox
         isOpen={isOpen}

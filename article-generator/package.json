@@ -9,12 +9,14 @@
   },
   "devDependencies": {
     "@types/node": "^22.15.3",
+    "prettier": "^3.5.3",
     "typescript": "^5.8.3"
   },
   "dependencies": {
     "axios": "^1.9.0",
     "dotenv": "^16.5.0",
     "fs": "^0.0.1-security",
+    "inquirer": "^12.6.0",
     "openai": "^4.96.0"
   }
 }
