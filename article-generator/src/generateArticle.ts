@@ -134,23 +134,23 @@ async function generateArticle(categoryName: string) {
 
   const authorId = randomAuthor.id;
 
-  const systemPrompt = `You are an experienced tech journalist writing articles for an IT/crypto/business news platform.`;
+  const systemPrompt = `You are an experienced tech copywriter writing articles for an IT/crypto/business news platform. your task is to write articles that will rank well in SEO.`;
 
   const userPrompt = `
-Write a complete, SEO-optimized article on a trending topic within the "\${categoryName}" category for 2025. 
+Write a complete, SEO-optimized article on a trending topic within the "${categoryName}" category for 2025. 
 The article must focus on a "how to..." theme, such as "How to [achieve something]", "How to build", "How to optimize", or similar topics that attract search traffic. 
 The content should be original, relevant to 2025 trends, and designed to rank well in search engines.
 
-Ensure the article is structured in **valid Markdown format**, including:
+Ensure the article (text field) is structured in **valid Markdown format**, including:
 - **Headings** (use \`##\`, \`###\` for different levels). Do not use h1 title and do not start article text with any titles because title already exists.
 - **Bold** and _italic_ text
 - Ordered and unordered **lists**
 - Inline \`code\` or code blocks where relevant
 - Clear, concise explanations with practical examples and step-by-step guides
+- Escape all special characters for JSON
 
-⚠️ The output of text field must be valid Markdown that can be rendered correctly by parsers like \`react-markdown\`.
+Validation: The output MUST be parsable by JSON.parse()
 
-Return your response ONLY as a valid JSON code block:
 \`\`\`json
 {
   "title": "...",
@@ -164,7 +164,7 @@ Return your response ONLY as a valid JSON code block:
 }
 \`\`\`
 
-Do not include any explanations or extra text. Do not include images or links. The article must be 100% original, engaging, and relevant to 2025 events or trends. It should be easy to read and contain well-researched, actionable steps that can rank high in search engines.
+Do not include any explanations or extra text. Do not include images or links. The article must be 100% original, engaging, and relevant to 2025 events or trends. It should be easy to read and contain well-researched, actionable steps that can rank high in search engines. Content should match JSON /\`\`\`json\\s*([\\s\\S]+?)\`\`\`/
 `;
 
   const response = await axios.post(
@@ -218,7 +218,7 @@ async function uploadToBlog(data: any, url: string) {
     return response.data;
   } catch (error: any) {
     console.error("❌ POST error:", error.message);
-    console.error("❌ article:", data);
+    console.error("❌ article:", JSON.stringify(data));
     return {
       success: false,
       message: error.message,
@@ -235,7 +235,7 @@ async function fetchRepeatedly({ count = 10, category, url }: FetchProps) {
   for (let i = 0; i < count; i++) {
     try {
       const article = await generateArticle(category);
-      const update = await uploadToBlog({ data: JSON.stringify(article) }, url);
+      const update = await uploadToBlog({ data: article }, url);
       if (!update?.image) {
         throw new Error(`Ошибка`);
       }
@@ -249,13 +249,14 @@ async function fetchRepeatedly({ count = 10, category, url }: FetchProps) {
 
 async function main() {
   const categories = await getCategories();
+  const allCat = "Все";
 
   const answer = await inquirer.prompt([
     {
       type: "list", // Тип вопроса — список с вариантами
       name: "category", // Имя переменной, в которую будет записан ответ
       message: "Какая категория?", // Текст вопроса
-      choices: categories.map((c) => c.name), // Варианты ответа
+      choices: [allCat, ...categories.map((c) => c.name)], // Варианты ответа
     },
     {
       type: "list",
@@ -270,14 +271,26 @@ async function main() {
       type: "list",
       name: "count",
       message: "Какой цикл?",
-      choices: ["1", "10", "20"],
+      choices: ["1", "5", "10", "20"],
     },
   ]);
 
-  await fetchRepeatedly({
-    category: answer.category,
-    url: answer.url,
-    count: Number(answer.count),
-  });
+  if (answer.category === allCat) {
+    for (const cat of categories) {
+      console.log(`Категория - ${cat.name}`);
+
+      await fetchRepeatedly({
+        category: cat.name,
+        url: answer.url,
+        count: Number(answer.count),
+      });
+    }
+  } else {
+    await fetchRepeatedly({
+      category: answer.category,
+      url: answer.url,
+      count: Number(answer.count),
+    });
+  }
 }
 main();

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import fetch from "node-fetch";
 import { SEO } from "@/interfaces/strapi";
-import { postImage } from "@/lib/api";
+import { incrementTrailingNumber, postImage } from "@/lib/api";
 
 // Типы для Strapi API
 export interface StrapiImage {
@@ -86,10 +86,8 @@ export async function POST(request: Request) {
       }
     }
 
-    // 3. Создаем статью
-    const articleRes = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/articles`,
-      {
+    const createArticle = async (newSlug?: string) => {
+      return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/articles`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -100,7 +98,7 @@ export async function POST(request: Request) {
         body: JSON.stringify({
           data: {
             text: textWithImages || text,
-            slug,
+            slug: newSlug || slug,
             image: imageData.id,
             description,
             author,
@@ -109,13 +107,23 @@ export async function POST(request: Request) {
             seo,
           },
         }),
-      },
-    );
-    console.log("TEST", articleRes);
+      });
+    };
+
+    // 3. Создаем статью
+    let articleRes = await createArticle();
+
     if (!articleRes.ok) {
       const errorData = await articleRes.json();
 
-      throw new Error(JSON.stringify(errorData) || "Failed to create article");
+      // @ts-expect-error smth with type
+      if (errorData?.error?.message === "This attribute must be unique") {
+        articleRes = await createArticle(incrementTrailingNumber(slug));
+      } else {
+        throw new Error(
+          JSON.stringify(errorData) || "Failed to create article",
+        );
+      }
     }
 
     const article = (await articleRes.json()) as { data: StrapiArticle };

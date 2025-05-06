@@ -49,3 +49,20 @@ export async function postImage(
 
   return imageData;
 }
+
+export function incrementTrailingNumber(str: string): string {
+  // Ищем шаблон: тире и от 1 до 3 цифр в конце строки
+  const regex = /-(\d{1,3})$/;
+  const match = str.match(regex);
+
+  if (match) {
+    // Если нашли число после тире, увеличиваем его на 1
+    const number = parseInt(match[1], 10);
+    const incremented = number + 1;
+    // Заменяем старое число на новое
+    return str.replace(regex, `-${incremented}`);
+  } else {
+    // Если шаблон не найден, добавляем "-1"
+    return `${str}-1`;
+  }
+}
