@@ -7,13 +7,18 @@ import { metadata } from "@/app/layout";
 import { PaginationStrapi } from "@/interfaces/strapi";
 import { ARTICLE_PAGE_SIZE } from "@/constants/common";
 
-export default async function HomePage() {
+type Props = {
+  params: Promise<{ page: string }>;
+};
+
+export default async function HomePage({ params }: Props) {
   let data: ArticleInterface[];
   let pagination: PaginationStrapi;
+  const { page } = await params;
 
   try {
     const articles = await getArticles({
-      pagination: { pageSize: ARTICLE_PAGE_SIZE },
+      pagination: { pageSize: ARTICLE_PAGE_SIZE, page: Number(page) },
     });
     data = articles.data;
     pagination = articles.meta.pagination;

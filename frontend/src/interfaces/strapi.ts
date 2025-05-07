@@ -40,11 +40,11 @@ export interface Image {
 export interface StrapiResponse<T> {
   data: T;
   meta: {
-    pagination: Pagination;
+    pagination: PaginationStrapi;
   };
 }
 
-export interface Pagination {
+export interface PaginationStrapi {
   page?: number;
   pageSize?: number;
   pageCount?: number;

@@ -3,34 +3,35 @@ import styles from "@/app/article/[article]/page.module.scss";
 import Cards from "@/components/Cards";
 import React from "react";
 import { ArticleInterface } from "@/interfaces/article";
-import { getAllCategories, getArticles, getCategory } from "@/api/facade";
+import { getAllAuthors, getArticles, getAuthors } from "@/api/facade";
 import { notFound } from "next/navigation";
 import { Title } from "@/components/Title";
 import { CategoryInterface } from "@/interfaces/category";
-import { getCategorySEO } from "@/lib/seo";
+import { getAuthorSEO } from "@/lib/seo";
 import { ARTICLE_PAGE_SIZE } from "@/constants/common";
 import { PaginationStrapi } from "@/interfaces/strapi";
 
 type Props = {
-  params: Promise<{ category: string }>;
+  params: Promise<{ author: string; page: string }>;
 };
 
-export default async function CategoryPage({ params }: Props) {
-  const { category } = await params;
+export default async function AuthorPage({ params }: Props) {
+  const { author, page } = await params;
   let data: ArticleInterface[];
-  let categoryData: CategoryInterface;
+  let authorsData: CategoryInterface;
   let pagination: PaginationStrapi;
 
   try {
-    categoryData = await getCategory({ slug: category });
+    const authors = await getAuthors({ slug: author });
+    authorsData = authors.data[0];
 
-    if (!categoryData || !categoryData?.slug) {
+    if (!authorsData || !authorsData?.slug) {
       notFound();
     }
 
     const articles = await getArticles({
-      category,
-      pagination: { pageSize: ARTICLE_PAGE_SIZE, page: 1 },
+      author,
+      pagination: { pageSize: ARTICLE_PAGE_SIZE, page: Number(page) },
     });
     data = articles.data;
     pagination = articles.meta.pagination;
@@ -43,9 +44,9 @@ export default async function CategoryPage({ params }: Props) {
   }
   return (
     <>
-      <Sidebar activeCategory={category} />
+      <Sidebar />
       <div className={styles.content}>
-        <Title text={`${categoryData.name}:`} />
+        <Title text={`${authorsData.name}:`} />
         <Cards data={data} pagination={pagination} />
       </div>
     </>
@@ -53,16 +54,17 @@ export default async function CategoryPage({ params }: Props) {
 }
 
 export async function generateStaticParams() {
-  const categories = await getAllCategories();
+  const authors = await getAllAuthors();
 
-  return categories.map(({ slug }) => ({
+  return authors.map(({ slug }) => ({
     slug,
   }));
 }
 
 export async function generateMetadata({ params }: Props) {
-  const { category } = await params;
-  const categoryData = await getCategory({ slug: category });
+  const { author } = await params;
+  const authors = await getAuthors({ slug: author });
+  const authorsData = authors.data[0];
 
-  return getCategorySEO(categoryData);
+  return getAuthorSEO(authorsData);
 }

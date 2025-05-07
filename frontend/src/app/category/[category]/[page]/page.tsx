@@ -12,11 +12,11 @@ import { ARTICLE_PAGE_SIZE } from "@/constants/common";
 import { PaginationStrapi } from "@/interfaces/strapi";
 
 type Props = {
-  params: Promise<{ category: string }>;
+  params: Promise<{ category: string; page: string }>;
 };
 
 export default async function CategoryPage({ params }: Props) {
-  const { category } = await params;
+  const { category, page } = await params;
   let data: ArticleInterface[];
   let categoryData: CategoryInterface;
   let pagination: PaginationStrapi;
@@ -30,7 +30,7 @@ export default async function CategoryPage({ params }: Props) {
 
     const articles = await getArticles({
       category,
-      pagination: { pageSize: ARTICLE_PAGE_SIZE, page: 1 },
+      pagination: { pageSize: ARTICLE_PAGE_SIZE, page: Number(page) },
     });
     data = articles.data;
     pagination = articles.meta.pagination;

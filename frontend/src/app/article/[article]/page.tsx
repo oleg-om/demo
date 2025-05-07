@@ -86,7 +86,7 @@ export default async function ArticlePage({ params }: Props) {
         {!!related?.length && (
           <>
             <SubTitle text="recommendations" />
-            <Cards data={related} />
+            <Cards data={related} pagination={{ pageSize: 10 }} />
           </>
         )}
       </div>

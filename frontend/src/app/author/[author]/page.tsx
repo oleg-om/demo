@@ -8,6 +8,8 @@ import { notFound } from "next/navigation";
 import { Title } from "@/components/Title";
 import { CategoryInterface } from "@/interfaces/category";
 import { getAuthorSEO } from "@/lib/seo";
+import { ARTICLE_PAGE_SIZE } from "@/constants/common";
+import { PaginationStrapi } from "@/interfaces/strapi";
 
 type Props = {
   params: Promise<{ author: string }>;
@@ -17,6 +19,7 @@ export default async function AuthorPage({ params }: Props) {
   const { author } = await params;
   let data: ArticleInterface[];
   let authorsData: CategoryInterface;
+  let pagination: PaginationStrapi;
 
   try {
     const authors = await getAuthors({ slug: author });
@@ -26,8 +29,12 @@ export default async function AuthorPage({ params }: Props) {
       notFound();
     }
 
-    const articles = await getArticles({ author });
+    const articles = await getArticles({
+      author,
+      pagination: { pageSize: ARTICLE_PAGE_SIZE, page: 1 },
+    });
     data = articles.data;
+    pagination = articles.meta.pagination;
 
     if (!data) {
       notFound();
@@ -40,7 +47,7 @@ export default async function AuthorPage({ params }: Props) {
       <Sidebar />
       <div className={styles.content}>
         <Title text={`${authorsData.name}:`} />
-        <Cards data={data} />
+        <Cards data={data} pagination={pagination} />
       </div>
     </>
   );

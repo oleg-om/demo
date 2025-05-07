@@ -1,6 +1,6 @@
 import {
   PageResponse,
-  Pagination,
+  PaginationStrapi,
   SEO,
   StrapiResponse,
 } from "../interfaces/strapi";
@@ -16,7 +16,7 @@ type getArticlesProps = {
   category?: string;
   author?: string;
   excludeSlug?: string;
-  pagination?: Pagination;
+  pagination?: PaginationStrapi;
 };
 
 // Получаем статьи
@@ -77,7 +77,7 @@ export const getAllArticles = async (): Promise<ArticleInterface[]> => {
 
 type apiProps = {
   slug?: string;
-  pagination?: Pagination;
+  pagination?: PaginationStrapi;
 };
 
 // Получаем авторов
